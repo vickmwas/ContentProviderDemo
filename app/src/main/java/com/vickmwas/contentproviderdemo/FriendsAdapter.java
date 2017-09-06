@@ -3,6 +3,7 @@ package com.vickmwas.contentproviderdemo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
     private Cursor cursor;
     private final ContactClickListener clickListener;
     // constructor
-    public FriendsAdapter(ContactClickListener clickListener) {
+    FriendsAdapter(ContactClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -30,7 +31,7 @@ class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
         private long rowID;
 
         // configures a RecyclerView item's ViewHolder
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(android.R.id.text1);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
         String lastName = cursor.getString(cursor.getColumnIndex(FriendsDbProvider.SCHEMA.COLUMN_LAST_NAME));
 
         holder.textView.setText(firstName + " " + lastName);
+        Log.e("Binding :", firstName + " " + lastName);
     }
 
     @Override
@@ -73,8 +75,9 @@ class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
 
 
     // swap this adapter's current Cursor for a new one
-    public void swapCursor(Cursor cursor) {
+    void swapCursor(Cursor cursor) {
         this.cursor = cursor;
+        Log.e("Cursor Length", cursor.getCount() + "");
         notifyDataSetChanged();
     }
 

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,12 +23,12 @@ public class FriendsDbProvider extends ContentProvider{
     static final Uri CONTENT_URI = Uri.parse(URL);
 
 
-    public static class SCHEMA{
+    static class SCHEMA{
         static final String TABLE_NAME = "friends";
 
-        public static final String COLUMN_ID = "_id";
-        public static final String COLUMN_FIRST_NAME = "first_name";
-        public static final String COLUMN_LAST_NAME = "last_name";
+        static final String COLUMN_ID = "_id";
+        static final String COLUMN_FIRST_NAME = "first_name";
+        static final String COLUMN_LAST_NAME = "last_name";
 
     }
 
@@ -43,8 +44,14 @@ public class FriendsDbProvider extends ContentProvider{
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(SCHEMA.TABLE_NAME);
+        Cursor cursor = queryBuilder.query(db, projection, selection,
+                selectionArgs, null, null, sortOrder);
+        // Make sure that potential listeners are getting notified
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
-        return null;
+        return cursor;
     }
 
     @Nullable
@@ -88,7 +95,7 @@ public class FriendsDbProvider extends ContentProvider{
 
 
     public static Uri buildFriendUri(long rowID){
-        return null;
+        return ContentUris.withAppendedId(CONTENT_URI, rowID);
     }
 
 
