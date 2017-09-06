@@ -27,11 +27,9 @@ public class FriendsDbProvider extends ContentProvider{
 
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_FIRST_NAME = "first_name";
-        public static final String COLUMN_NAME_NAME = "last_name";
+        public static final String COLUMN_LAST_NAME = "last_name";
 
     }
-
-    //todo Write Insert query
 
     @Override
     public boolean onCreate() {
@@ -87,4 +85,11 @@ public class FriendsDbProvider extends ContentProvider{
         Log.e(TAG,"Invoked shutdown(); Closing Db Instance");
         dbHelper.close();
     }
+
+
+    public static Uri buildFriendUri(long rowID){
+        return null;
+    }
+
+
 }
